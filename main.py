@@ -69,6 +69,12 @@ def main():
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
         f.write(letter)
+    # Read the entry back and prove the gate holds before finishing:
+    # exactly one UTF-8 byte, one letter A-Z, nothing else.
+    with open(OUTPUT_PATH, "rb") as f:
+        written = f.read()
+    assert len(written) == 1 and 65 <= written[0] <= 90, "gate failed: entry is not one A-Z letter"
+    assert written.decode("utf-8") == letter
 
 
 if __name__ == "__main__":
